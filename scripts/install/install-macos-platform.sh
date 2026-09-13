@@ -36,8 +36,8 @@ CLOUDFLARED_SOURCE_BINARY="${AGENTDOCK_CLOUDFLARED_BINARY:-}"
 CLOUDFLARED_SOURCE_EXPLICIT=false
 CLOUDFLARED_CHECKSUM_FILE=""
 
-LABEL="com.uvwt.agentdock"
-TUNNEL_LABEL="com.uvwt.agentdock.cloudflared"
+LABEL="com.max.agentdock"
+TUNNEL_LABEL="com.max.agentdock.cloudflared"
 APP_SUPPORT_DIR="$HOME/Library/Application Support/AgentDock"
 AGENTDOCK_ENV="$APP_SUPPORT_DIR/agentdock.env"
 START_SCRIPT="$APP_SUPPORT_DIR/start-agentdock.sh"
@@ -119,8 +119,8 @@ AgentDock macOS 预编译版本安装脚本。
   ~/Library/Application Support/AgentDock/start-agentdock.sh
   ~/Library/Application Support/AgentDock/cloudflared.env
   ~/Library/Application Support/AgentDock/start-cloudflared.sh
-  ~/Library/LaunchAgents/com.uvwt.agentdock.plist
-  ~/Library/LaunchAgents/com.uvwt.agentdock.cloudflared.plist
+  ~/Library/LaunchAgents/com.max.agentdock.plist
+  ~/Library/LaunchAgents/com.max.agentdock.cloudflared.plist
   ~/Library/Logs/AgentDock/
 USAGE
 }
@@ -514,7 +514,7 @@ write_service_env() {
     umask 077
     cat > "$AGENTDOCK_ENV" <<'ENV'
 # AgentDock macOS LaunchAgent 的唯一服务配置文件。
-# 修改后执行 launchctl kickstart -k "gui/$(id -u)/com.uvwt.agentdock" 使配置生效。
+# 修改后执行 launchctl kickstart -k "gui/$(id -u)/com.max.agentdock" 使配置生效。
 ENV
   fi
   [[ -f "$AGENTDOCK_ENV" && ! -L "$AGENTDOCK_ENV" ]] || die "agentdock.env 必须是普通文件：$AGENTDOCK_ENV"

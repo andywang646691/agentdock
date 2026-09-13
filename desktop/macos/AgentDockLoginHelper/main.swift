@@ -22,7 +22,7 @@ guard appBundle.pathExtension == "app" else {
 
 // 更新过程中重新注册 LaunchAgent 会立即执行一次 RunAtLoad。
 // 主 App 已经在运行时不再调用 open，避免触发额外的 reopen/窗口展示。
-if !NSRunningApplication.runningApplications(withBundleIdentifier: "com.uvwt.agentdock").isEmpty {
+if !NSRunningApplication.runningApplications(withBundleIdentifier: "com.max.agentdock").isEmpty {
     exit(EXIT_SUCCESS)
 }
 

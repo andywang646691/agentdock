@@ -81,9 +81,9 @@ func TestValidateMacOSDesktopRuntimeRejectsUnsafeMenuAgent(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			appPath := writeSignedMacOSApp(t, t.TempDir(), "0.7.1")
-			plistPath := filepath.Join(appPath, "Contents", "Library", "LaunchAgents", "com.uvwt.agentdock.menu-login.plist")
+			plistPath := filepath.Join(appPath, "Contents", "Library", "LaunchAgents", "com.max.agentdock.menu-login.plist")
 			test.mutate(t, plistPath)
-			runTestCommand(t, "/usr/bin/codesign", "--force", "--deep", "--sign", "-", "--identifier", "com.uvwt.agentdock", appPath)
+			runTestCommand(t, "/usr/bin/codesign", "--force", "--deep", "--sign", "-", "--identifier", "com.max.agentdock", appPath)
 
 			err := validateMacOSDesktopRuntime(context.Background(), appPath, "v0.7.1")
 			if err == nil || !strings.Contains(err.Error(), test.wantError) {
@@ -260,7 +260,7 @@ func writeHandoffTestMacOSApp(t *testing.T, root string) string {
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
 <key>CFBundleExecutable</key><string>AgentDock</string>
-<key>CFBundleIdentifier</key><string>com.uvwt.agentdock.handoff-test</string>
+<key>CFBundleIdentifier</key><string>com.max.agentdock.handoff-test</string>
 <key>CFBundleName</key><string>AgentDock</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>CFBundleShortVersionString</key><string>0.7.1</string>
@@ -270,7 +270,7 @@ func writeHandoffTestMacOSApp(t *testing.T, root string) string {
 	if err := os.WriteFile(filepath.Join(contents, "Info.plist"), []byte(plist), 0o644); err != nil {
 		t.Fatal(err)
 	}
-	runTestCommand(t, "/usr/bin/codesign", "--force", "--deep", "--sign", "-", "--identifier", "com.uvwt.agentdock.handoff-test", appPath)
+	runTestCommand(t, "/usr/bin/codesign", "--force", "--deep", "--sign", "-", "--identifier", "com.max.agentdock.handoff-test", appPath)
 	return appPath
 }
 
@@ -317,14 +317,14 @@ func writeSignedMacOSApp(t *testing.T, root, version string) string {
 	menuAgentPlist := `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
-<key>Label</key><string>com.uvwt.agentdock.menu-login</string>
+<key>Label</key><string>com.max.agentdock.menu-login</string>
 <key>BundleProgram</key><string>Contents/Helpers/AgentDockLoginHelper</string>
 <key>ProgramArguments</key><array><string>AgentDockLoginHelper</string></array>
 <key>RunAtLoad</key><true/>
 <key>LimitLoadToSessionType</key><string>Aqua</string>
 </dict></plist>
 `
-	if err := os.WriteFile(filepath.Join(launchAgentsDir, "com.uvwt.agentdock.menu-login.plist"), []byte(menuAgentPlist), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(launchAgentsDir, "com.max.agentdock.menu-login.plist"), []byte(menuAgentPlist), 0o644); err != nil {
 		t.Fatal(err)
 	}
 	if err := os.WriteFile(filepath.Join(skillsDir, "manifest.json"), []byte("{}\n"), 0o644); err != nil {
@@ -334,7 +334,7 @@ func writeSignedMacOSApp(t *testing.T, root, version string) string {
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
 <key>CFBundleExecutable</key><string>AgentDock</string>
-<key>CFBundleIdentifier</key><string>com.uvwt.agentdock</string>
+<key>CFBundleIdentifier</key><string>com.max.agentdock</string>
 <key>CFBundleName</key><string>AgentDock</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>CFBundleShortVersionString</key><string>` + version + `</string>
@@ -344,11 +344,11 @@ func writeSignedMacOSApp(t *testing.T, root, version string) string {
 	if err := os.WriteFile(filepath.Join(contents, "Info.plist"), []byte(plist), 0o644); err != nil {
 		t.Fatal(err)
 	}
-	runTestCommand(t, "/usr/bin/codesign", "--force", "--sign", "-", "--identifier", "com.uvwt.agentdock.login-helper", filepath.Join(helpersDir, "AgentDockLoginHelper"))
-	runTestCommand(t, "/usr/bin/codesign", "--force", "--sign", "-", "--identifier", "com.uvwt.agentdock.core", filepath.Join(helpersDir, "agentdock"))
-	runTestCommand(t, "/usr/bin/codesign", "--force", "--sign", "-", "--identifier", "com.uvwt.agentdock.cloudflared", filepath.Join(helpersDir, "cloudflared"))
-	runTestCommand(t, "/usr/bin/codesign", "--force", "--sign", "-", "--identifier", "com.uvwt.agentdock.arbiter", filepath.Join(helpersDir, "agentdock-arbiter"))
-	runTestCommand(t, "/usr/bin/codesign", "--force", "--deep", "--sign", "-", "--identifier", "com.uvwt.agentdock", appPath)
+	runTestCommand(t, "/usr/bin/codesign", "--force", "--sign", "-", "--identifier", "com.max.agentdock.login-helper", filepath.Join(helpersDir, "AgentDockLoginHelper"))
+	runTestCommand(t, "/usr/bin/codesign", "--force", "--sign", "-", "--identifier", "com.max.agentdock.core", filepath.Join(helpersDir, "agentdock"))
+	runTestCommand(t, "/usr/bin/codesign", "--force", "--sign", "-", "--identifier", "com.max.agentdock.cloudflared", filepath.Join(helpersDir, "cloudflared"))
+	runTestCommand(t, "/usr/bin/codesign", "--force", "--sign", "-", "--identifier", "com.max.agentdock.arbiter", filepath.Join(helpersDir, "agentdock-arbiter"))
+	runTestCommand(t, "/usr/bin/codesign", "--force", "--deep", "--sign", "-", "--identifier", "com.max.agentdock", appPath)
 	if err := validateMacOSDesktopRuntime(context.Background(), appPath, version); err != nil {
 		t.Fatal(err)
 	}

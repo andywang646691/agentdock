@@ -44,7 +44,7 @@ agentdock service restart --runtime-root "$HOME/Library/Application Support/Agen
 
 ## 不要做的事
 
-- 不要创建 `~/Library/LaunchAgents/com.uvwt.agentdock*.plist` 作为替代生命周期。当前 macOS Desktop 由 AgentDock.app 的 SMAppService 管理后台 Core/Tunnel。
+- 不要创建 `~/Library/LaunchAgents/com.max.agentdock*.plist` 作为替代生命周期。当前 macOS Desktop 由 AgentDock.app 的 SMAppService 管理后台 Core/Tunnel。
 - 不要把 `~/.agentdock` 当成 macOS Desktop 的 Core 环境文件目录。
 - 不要手工覆盖 App Bundle 内的 Core 二进制来“让配置生效”。
 - 不要降低 `agentdock.env` 权限以方便其他用户读取。

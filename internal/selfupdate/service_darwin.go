@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-const macOSLaunchAgentLabel = "com.uvwt.agentdock"
+const macOSLaunchAgentLabel = "com.max.agentdock"
 
 type macOSPaths struct {
 	binary      string

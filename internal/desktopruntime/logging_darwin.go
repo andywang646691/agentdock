@@ -5,7 +5,6 @@ package desktopruntime
 import (
 	"fmt"
 	"io"
-	"os"
 	"path/filepath"
 
 	"github.com/uvwt/agentdock/internal/logfile"
@@ -31,9 +30,9 @@ func platformOpenTunnelLogs(unixRuntimeManifest) (*processLogs, error) {
 }
 
 func macOSLogDir() (string, error) {
-	home, err := os.UserHomeDir()
-	if err != nil || home == "" {
-		return "", fmt.Errorf("解析 macOS 用户目录失败: %w", err)
+	home := darwinUserHome()
+	if home == "" {
+		return "", fmt.Errorf("解析 macOS 用户目录失败")
 	}
 	return filepath.Join(home, "Library", "Logs", "AgentDock"), nil
 }

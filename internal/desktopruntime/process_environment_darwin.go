@@ -9,9 +9,15 @@ import (
 )
 
 func platformPrepareLaunchEnvironment(_ string) error {
-	home, err := os.UserHomeDir()
-	if err != nil || home == "" {
-		return fmt.Errorf("解析 macOS 用户目录失败: %w", err)
+	home := darwinUserHome()
+	if home == "" {
+		return fmt.Errorf("解析 macOS 用户目录失败")
+	}
+	// launchd starts SMAppService agents with a sparse environment. Populate HOME
+	// before config.FromEnv calls os.UserHomeDir so the service uses this account's
+	// existing state rather than failing with "$HOME is not defined".
+	if err := os.Setenv("HOME", home); err != nil {
+		return fmt.Errorf("设置 macOS 用户目录失败: %w", err)
 	}
 	workDir := filepath.Join(home, "AgentDock")
 	if err := os.MkdirAll(workDir, 0o755); err != nil {

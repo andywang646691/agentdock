@@ -54,8 +54,8 @@ func loadUnixRuntime(runtimeRoot string) (unixRuntimeManifest, string, error) {
 			cloudflaredBinary = filepath.Join(filepath.Dir(executable), "cloudflared")
 		}
 		serviceManager = "smappservice"
-		serviceName = "com.uvwt.agentdock.core"
-		tunnelServiceName = "com.uvwt.agentdock.tunnel"
+		serviceName = "com.max.agentdock.core"
+		tunnelServiceName = "com.max.agentdock.tunnel"
 	}
 	manifest := unixRuntimeManifest{
 		SchemaVersion:     1,

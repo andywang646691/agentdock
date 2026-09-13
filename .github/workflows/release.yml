@@ -710,8 +710,8 @@ jobs:
             "$zip_dir/AgentDock.app/Contents/Helpers/cloudflared" \
             "$mount_dir/AgentDock.app/Contents/Helpers/cloudflared"
           test -f "$mount_dir/AgentDock.app/Contents/Resources/core-skills/manifest.json"
-          core_plist="$mount_dir/AgentDock.app/Contents/Library/LaunchAgents/com.uvwt.agentdock.core.plist"
-          tunnel_plist="$mount_dir/AgentDock.app/Contents/Library/LaunchAgents/com.uvwt.agentdock.tunnel.plist"
+          core_plist="$mount_dir/AgentDock.app/Contents/Library/LaunchAgents/com.max.agentdock.core.plist"
+          tunnel_plist="$mount_dir/AgentDock.app/Contents/Library/LaunchAgents/com.max.agentdock.tunnel.plist"
           plutil -lint "$core_plist" >/dev/null
           plutil -lint "$tunnel_plist" >/dev/null
           test "$(plutil -extract BundleProgram raw -o - "$core_plist")" = "Contents/Helpers/agentdock"

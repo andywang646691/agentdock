@@ -87,10 +87,11 @@ struct ServiceStatus {
 }
 
 final class ServiceController: @unchecked Sendable {
-    static let coreLabel = "com.uvwt.agentdock.core"
-    static let tunnelLabel = "com.uvwt.agentdock.tunnel"
-    static let corePlistName = "com.uvwt.agentdock.core.plist"
-    static let tunnelPlistName = "com.uvwt.agentdock.tunnel.plist"
+    static let bundleIdentifier = "com.max.agentdock"
+    static let coreLabel = "com.max.agentdock.core"
+    static let tunnelLabel = "com.max.agentdock.tunnel"
+    static let corePlistName = "com.max.agentdock.core.plist"
+    static let tunnelPlistName = "com.max.agentdock.tunnel.plist"
 
     let paths: AppPaths
 

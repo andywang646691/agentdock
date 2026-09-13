@@ -8,7 +8,7 @@ EXECUTION_PATH="$PATH"
 
 SCRIPT_DIR="${0:A:h}"
 SRC_DIR="${SCRIPT_DIR:h:h}"
-LABEL="com.uvwt.agentdock"
+LABEL="com.max.agentdock"
 TARGET="$HOME/.local/bin/agentdock"
 BACKUP_DIR="$HOME/.agentdock/backups/bin"
 APP_SUPPORT_DIR="$HOME/Library/Application Support/AgentDock"

@@ -1,8 +1,8 @@
 #!/bin/zsh
 set -euo pipefail
 
-LABEL="com.uvwt.agentdock"
-TUNNEL_LABEL="com.uvwt.agentdock.cloudflared"
+LABEL="com.max.agentdock"
+TUNNEL_LABEL="com.max.agentdock.cloudflared"
 APP_SUPPORT_DIR="$HOME/Library/Application Support/AgentDock"
 PLIST_PATH="$HOME/Library/LaunchAgents/$LABEL.plist"
 TUNNEL_PLIST_PATH="$HOME/Library/LaunchAgents/$TUNNEL_LABEL.plist"

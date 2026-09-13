@@ -18,7 +18,7 @@ func TestStandardMacOSPaths(t *testing.T) {
 		"binary":       filepath.Join(home, ".local", "bin", "agentdock"),
 		"service env":  filepath.Join(home, "Library", "Application Support", "AgentDock", "agentdock.env"),
 		"runtime root": filepath.Join(home, "Library", "Application Support", "AgentDock"),
-		"launch agent": filepath.Join(home, "Library", "LaunchAgents", "com.uvwt.agentdock.plist"),
+		"launch agent": filepath.Join(home, "Library", "LaunchAgents", "com.max.agentdock.plist"),
 		"work dir":     filepath.Join(home, "AgentDock"),
 		"backup dir":   filepath.Join(home, ".agentdock", "backups", "bin"),
 		"stdout log":   filepath.Join(home, "Library", "Logs", "AgentDock", "agentdock.out.log"),
@@ -64,7 +64,7 @@ func TestPlatformHealthCandidatesReadsMacOSAgentDockEnv(t *testing.T) {
 }
 
 func TestParseLaunchdPID(t *testing.T) {
-	output := "gui/501/com.uvwt.agentdock = {\n\tstate = running\n\tpid = 43210\n}\n"
+	output := "gui/501/com.max.agentdock = {\n\tstate = running\n\tpid = 43210\n}\n"
 	if got := parseLaunchdPID(output); got != 43210 {
 		t.Fatalf("unexpected PID: %d", got)
 	}

@@ -159,6 +159,8 @@ func containsAppleDoubleComponent(path string) bool {
 	return false
 }
 
+const macOSDesktopBundleIdentifier = "com.max.agentdock"
+
 func validateMacOSDesktopTarget(appPath string) error {
 	info, err := os.Lstat(appPath)
 	if err != nil {
@@ -168,7 +170,7 @@ func validateMacOSDesktopTarget(appPath string) error {
 		return fmt.Errorf("macOS App 不是普通目录: %s", appPath)
 	}
 	identifier, err := plistValue(context.Background(), filepath.Join(appPath, "Contents", "Info.plist"), "CFBundleIdentifier")
-	if err != nil || identifier != "com.uvwt.agentdock" {
+	if err != nil || identifier != macOSDesktopBundleIdentifier {
 		return fmt.Errorf("macOS App Bundle Identifier 无效: %s", appPath)
 	}
 	executable := filepath.Join(appPath, "Contents", "MacOS", "AgentDock")
@@ -204,7 +206,7 @@ func validateMacOSDesktopRuntime(ctx context.Context, appPath, targetVersion str
 	cloudflared := filepath.Join(appPath, "Contents", "Helpers", "cloudflared")
 	arbiter := filepath.Join(appPath, "Contents", "Helpers", "agentdock-arbiter")
 	menuHelper := filepath.Join(appPath, "Contents", "Helpers", "AgentDockLoginHelper")
-	menuAgent := filepath.Join(appPath, "Contents", "Library", "LaunchAgents", "com.uvwt.agentdock.menu-login.plist")
+	menuAgent := filepath.Join(appPath, "Contents", "Library", "LaunchAgents", "com.max.agentdock.menu-login.plist")
 	skillManifest := filepath.Join(appPath, "Contents", "Resources", "core-skills", "manifest.json")
 	for _, path := range []string{core, cloudflared, arbiter, menuHelper, menuAgent, skillManifest} {
 		info, err := os.Lstat(path)
@@ -219,7 +221,7 @@ func validateMacOSDesktopRuntime(ctx context.Context, appPath, targetVersion str
 		key   string
 		value string
 	}{
-		{key: "Label", value: "com.uvwt.agentdock.menu-login"},
+		{key: "Label", value: "com.max.agentdock.menu-login"},
 		{key: "BundleProgram", value: "Contents/Helpers/AgentDockLoginHelper"},
 		{key: "ProgramArguments.0", value: "AgentDockLoginHelper"},
 		{key: "RunAtLoad", value: "true"},

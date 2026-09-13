@@ -19,6 +19,8 @@ import (
 	"github.com/uvwt/agentdock/internal/updateengine"
 )
 
+const macOSDesktopBundleIdentifier = "com.max.agentdock"
+
 type DarwinDriver struct {
 	root  string
 	store *updateengine.Store
@@ -269,7 +271,7 @@ func validateMacOSApp(ctx context.Context, appPath, expectedVersion string) erro
 		return fmt.Errorf("App Bundle is unavailable: %s", appPath)
 	}
 	identifier, err := plistValue(ctx, filepath.Join(appPath, "Contents", "Info.plist"), "CFBundleIdentifier")
-	if err != nil || identifier != "com.uvwt.agentdock" {
+	if err != nil || identifier != macOSDesktopBundleIdentifier {
 		return fmt.Errorf("unexpected Bundle Identifier: %q", identifier)
 	}
 	version := macOSAppVersion(ctx, appPath)

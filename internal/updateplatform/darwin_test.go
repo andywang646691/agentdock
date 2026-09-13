@@ -98,14 +98,14 @@ func TestMacOSDesignatedRequirementClassification(t *testing.T) {
 		t.Fatalf("ad-hoc requirement was not classified as legacy: %q", adHoc)
 	}
 
-	certificate, err := parseMacOSDesignatedRequirement("Executable=/tmp/AgentDock.app/Contents/MacOS/AgentDock\ndesignated => identifier \"com.uvwt.agentdock\" and certificate leaf = H\"62bdaeee2f8cda5d0d1de81438825b88ed97c988\"\n")
+	certificate, err := parseMacOSDesignatedRequirement("Executable=/tmp/AgentDock.app/Contents/MacOS/AgentDock\ndesignated => identifier \"com.max.agentdock\" and certificate leaf = H\"62bdaeee2f8cda5d0d1de81438825b88ed97c988\"\n")
 	if err != nil {
 		t.Fatal(err)
 	}
 	if isLegacyAdHocRequirement(certificate) {
 		t.Fatalf("certificate requirement was classified as ad-hoc: %q", certificate)
 	}
-	if certificate != `identifier "com.uvwt.agentdock" and certificate leaf = H"62bdaeee2f8cda5d0d1de81438825b88ed97c988"` {
+	if certificate != `identifier "com.max.agentdock" and certificate leaf = H"62bdaeee2f8cda5d0d1de81438825b88ed97c988"` {
 		t.Fatalf("certificate requirement = %q", certificate)
 	}
 

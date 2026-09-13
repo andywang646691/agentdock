@@ -3,7 +3,7 @@ set -euo pipefail
 
 EXECUTION_HOME="$HOME"
 EXECUTION_PATH="$PATH"
-LABEL="com.uvwt.agentdock"
+LABEL="com.max.agentdock"
 AGENTDOCK_ENV="$HOME/Library/Application Support/AgentDock/agentdock.env"
 TARGET="$HOME/.local/bin/agentdock"
 

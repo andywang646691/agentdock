@@ -2,8 +2,8 @@ import Foundation
 import ServiceManagement
 
 final class MenuLoginAgentController {
-    private let menuAgentPlistName = "com.uvwt.agentdock.menu-login.plist"
-    private let legacyHelperIdentifier = "com.uvwt.agentdock.login-helper"
+    private let menuAgentPlistName = "com.max.agentdock.menu-login.plist"
+    private let legacyHelperIdentifier = "com.uvwt.agentdock.login-helper" // legacy cleanup target
     private let preferenceKey = "menuLoginEnabled"
     private let preferenceInitializedKey = "menuLoginPreferenceInitialized"
     private let defaults: UserDefaults

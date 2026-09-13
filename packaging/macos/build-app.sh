@@ -9,7 +9,7 @@ OUTPUT_DIR="${AGENTDOCK_MACOS_APP_OUTPUT_DIR:-$ROOT_DIR/dist/macos-app}"
 ARCH_LIST="${AGENTDOCK_MACOS_ARCHES:-$(uname -m)}"
 OFFLINE_PAYLOAD_DIR="${AGENTDOCK_MACOS_OFFLINE_PAYLOAD_DIR:-}"
 MIN_VERSION="${AGENTDOCK_MACOS_MIN_VERSION:-13.0}"
-BUNDLE_ID="com.uvwt.agentdock"
+BUNDLE_ID="com.max.agentdock"
 APP_ICON_SOURCE="$ROOT_DIR/packaging/assets/agentdock.png"
 CODESIGN_IDENTITY="${AGENTDOCK_CODESIGN_IDENTITY:-"-"}"
 CODESIGN_KEYCHAIN="${AGENTDOCK_CODESIGN_KEYCHAIN:-}"
@@ -255,13 +255,13 @@ find "$CORE_SKILL_BUNDLE" -type f -exec chmod 0644 {} +
 [[ -f "$CORE_SKILL_BUNDLE/manifest.json" && ! -L "$CORE_SKILL_BUNDLE/manifest.json" ]] || \
   die "App Bundle 缺少核心 Skill manifest"
 
-cat > "$LAUNCH_AGENTS_DIR/com.uvwt.agentdock.core.plist" <<'PLIST'
+cat > "$LAUNCH_AGENTS_DIR/com.max.agentdock.core.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
   <key>Label</key>
-  <string>com.uvwt.agentdock.core</string>
+  <string>com.max.agentdock.core</string>
   <key>BundleProgram</key>
   <string>Contents/Helpers/agentdock</string>
   <key>ProgramArguments</key>
@@ -282,13 +282,13 @@ cat > "$LAUNCH_AGENTS_DIR/com.uvwt.agentdock.core.plist" <<'PLIST'
 </plist>
 PLIST
 
-cat > "$LAUNCH_AGENTS_DIR/com.uvwt.agentdock.tunnel.plist" <<'PLIST'
+cat > "$LAUNCH_AGENTS_DIR/com.max.agentdock.tunnel.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
   <key>Label</key>
-  <string>com.uvwt.agentdock.tunnel</string>
+  <string>com.max.agentdock.tunnel</string>
   <key>BundleProgram</key>
   <string>Contents/Helpers/agentdock</string>
   <key>ProgramArguments</key>
@@ -309,13 +309,13 @@ cat > "$LAUNCH_AGENTS_DIR/com.uvwt.agentdock.tunnel.plist" <<'PLIST'
 </plist>
 PLIST
 
-cat > "$LAUNCH_AGENTS_DIR/com.uvwt.agentdock.menu-login.plist" <<'PLIST'
+cat > "$LAUNCH_AGENTS_DIR/com.max.agentdock.menu-login.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
   <key>Label</key>
-  <string>com.uvwt.agentdock.menu-login</string>
+  <string>com.max.agentdock.menu-login</string>
   <key>BundleProgram</key>
   <string>Contents/Helpers/AgentDockLoginHelper</string>
   <key>ProgramArguments</key>
@@ -329,9 +329,9 @@ cat > "$LAUNCH_AGENTS_DIR/com.uvwt.agentdock.menu-login.plist" <<'PLIST'
 </dict>
 </plist>
 PLIST
-plutil -lint "$LAUNCH_AGENTS_DIR/com.uvwt.agentdock.core.plist" >/dev/null
-plutil -lint "$LAUNCH_AGENTS_DIR/com.uvwt.agentdock.tunnel.plist" >/dev/null
-plutil -lint "$LAUNCH_AGENTS_DIR/com.uvwt.agentdock.menu-login.plist" >/dev/null
+plutil -lint "$LAUNCH_AGENTS_DIR/com.max.agentdock.core.plist" >/dev/null
+plutil -lint "$LAUNCH_AGENTS_DIR/com.max.agentdock.tunnel.plist" >/dev/null
+plutil -lint "$LAUNCH_AGENTS_DIR/com.max.agentdock.menu-login.plist" >/dev/null
 
 cat > "$CONTENTS_DIR/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
@@ -396,10 +396,10 @@ if [[ "$CODESIGN_IDENTITY" == "-" ]]; then
 else
   print -- "==> 使用指定身份签名 AgentDock.app"
 fi
-sign_macos_code "com.uvwt.agentdock.login-helper" "$MENU_LOGIN_HELPER"
-sign_macos_code "com.uvwt.agentdock.core" "$HELPERS_DIR/agentdock"
-sign_macos_code "com.uvwt.agentdock.cloudflared" "$HELPERS_DIR/cloudflared"
-sign_macos_code "com.uvwt.agentdock.arbiter" "$HELPERS_DIR/agentdock-arbiter"
+sign_macos_code "com.max.agentdock.login-helper" "$MENU_LOGIN_HELPER"
+sign_macos_code "com.max.agentdock.core" "$HELPERS_DIR/agentdock"
+sign_macos_code "com.max.agentdock.cloudflared" "$HELPERS_DIR/cloudflared"
+sign_macos_code "com.max.agentdock.arbiter" "$HELPERS_DIR/agentdock-arbiter"
 # 嵌套代码先分别签名，再签外层 App。不要用 --deep 做签名操作，否则会重新签
 # Core/cloudflared 并破坏它们的稳定代码身份；--deep 只用于最终递归验证。
 sign_macos_code "$BUNDLE_ID" "$APP_DIR"

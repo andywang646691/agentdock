@@ -2,6 +2,7 @@ import Foundation
 
 final class LegacyDesktopRuntimeMigration {
     private static let services = [
+        // These are legacy inputs only. Production App services use com.max.agentdock.
         (label: "com.uvwt.agentdock", plist: "com.uvwt.agentdock.plist"),
         (label: "com.uvwt.agentdock.cloudflared", plist: "com.uvwt.agentdock.cloudflared.plist"),
         (label: "com.uvwt.agentdock.menu", plist: "com.uvwt.agentdock.menu.plist"),
