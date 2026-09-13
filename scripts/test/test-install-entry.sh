@@ -3,6 +3,10 @@ set -eu
 
 ROOT_DIR="$(CDPATH='' cd -- "$(dirname -- "$0")/../.." && pwd)"
 TMP_ROOT="$(mktemp -d "${TMPDIR:-/tmp}/agentdock-install-entry-test.XXXXXX")"
+# macOS exposes /var as a symlink to /private/var. Normalize the test root to
+# its physical path so safety checks exercise the paths we actually created
+# instead of rejecting the platform's system-level alias.
+TMP_ROOT="$(CDPATH='' cd -P -- "$TMP_ROOT" && pwd -P)"
 trap 'rm -rf "$TMP_ROOT"' EXIT HUP INT TERM
 
 export AGENTDOCK_TTY_IN=/dev/stdin
