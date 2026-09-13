@@ -18,7 +18,9 @@ import (
 func TestAgentDockContextToolReturnsStructuredRuntimeIndex(t *testing.T) {
 	home := t.TempDir()
 	setUserHomeForTest(t, home)
-	writeCommonSkillForTest(t, filepath.Join(home, ".agents", "skills"), "demo-common", "demo-skill", "Lower-priority common Skill.")
+	commonDescription := strings.Repeat("Lower-priority common Skill description. ", 8)
+	skillDescription := strings.Repeat("Use this Skill for context index tests. ", 8)
+	writeCommonSkillForTest(t, filepath.Join(home, ".agents", "skills"), "demo-common", "demo-skill", commonDescription)
 
 	cfg := config.Config{
 		AgentDockDefaultDir: t.TempDir(),
@@ -31,7 +33,7 @@ func TestAgentDockContextToolReturnsStructuredRuntimeIndex(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	installDocumentSkillForTest(t, rt, "demo-skill", "1.0.0", "Use this Skill for context index tests.")
+	installDocumentSkillForTest(t, rt, "demo-skill", "1.0.0", skillDescription)
 
 	result, err := rt.Call(context.Background(), "agentdock_context", map[string]any{})
 	if err != nil {
@@ -51,14 +53,14 @@ func TestAgentDockContextToolReturnsStructuredRuntimeIndex(t *testing.T) {
 			break
 		}
 	}
-	if demo == nil || demo.Description != "Use this Skill for context index tests." || demo.File != "skill://demo-skill/SKILL.md" {
+	if demo == nil || demo.Description != strings.TrimSpace(skillDescription) || demo.File != "skill://demo-skill/SKILL.md" {
 		t.Fatalf("structured Skill index missing demo-skill: %#v", got.Skills)
 	}
 	if got.CommonSkills == nil || got.CommonSkills.Total != 1 || len(got.CommonSkills.Items) != 1 {
 		t.Fatalf("common Skill index = %#v", got.CommonSkills)
 	}
 	commonDemo := got.CommonSkills.Items[0]
-	if commonDemo.Name != "demo-skill" || commonDemo.Description != "Lower-priority common Skill." || commonDemo.File != filepath.Join(home, ".agents", "skills", "demo-common", "SKILL.md") {
+	if commonDemo.Name != "demo-skill" || commonDemo.Description != strings.TrimSpace(commonDescription) || commonDemo.File != filepath.Join(home, ".agents", "skills", "demo-common", "SKILL.md") {
 		t.Fatalf("common Skill index missing duplicate demo-skill: %#v", got.CommonSkills)
 	}
 	if got.DynamicMCP == nil || got.WorkflowTemplates == nil || got.Rules == nil {
@@ -80,6 +82,15 @@ func TestAgentDockContextToolReturnsStructuredRuntimeIndex(t *testing.T) {
 		if strings.Contains(rules, removed) {
 			t.Fatalf("context rules still reference removed tool %q: %s", removed, rules)
 		}
+	}
+}
+
+func TestRecallIndexDescriptionPreservesFullDescription(t *testing.T) {
+	summary := strings.Repeat("Detailed recall summary. ", 32)
+	title := strings.Repeat("Long title ", 24)
+	want := strings.TrimSpace(title) + " — " + strings.TrimSpace(summary)
+	if got := recallIndexDescription(capabilityRecallIndexItem{Title: title, Summary: summary}); got != want {
+		t.Fatalf("recall description was truncated: got %d bytes, want %d", len(got), len(want))
 	}
 }
 

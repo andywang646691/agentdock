@@ -82,11 +82,12 @@ func TestDynamicMCPToolsStaySeparateAndAppearLightweightInContext(t *testing.T) 
 		t.Fatal(err)
 	}
 	defer runtime.Close()
+	dynamicDescription := strings.Repeat("Demo external capabilities. ", 12)
 
 	added, err := runtime.Call(context.Background(), "mcp_manage", map[string]any{
 		"action":      "add",
 		"name":        "demo",
-		"description": "Demo external capabilities",
+		"description": dynamicDescription,
 		"transport":   "streamable_http",
 		"url":         upstream.URL,
 	})
@@ -106,7 +107,7 @@ func TestDynamicMCPToolsStaySeparateAndAppearLightweightInContext(t *testing.T) 
 	if err := remarshal(contextResult, &contextData); err != nil {
 		t.Fatal(err)
 	}
-	if len(contextData.DynamicMCP) != 1 || contextData.DynamicMCP[0].Name != "demo" || contextData.DynamicMCP[0].Description != "Demo external capabilities" || contextData.DynamicMCP[0].Status != "idle" || contextData.DynamicMCP[0].ToolCount != 0 {
+	if len(contextData.DynamicMCP) != 1 || contextData.DynamicMCP[0].Name != "demo" || contextData.DynamicMCP[0].Description != strings.TrimSpace(dynamicDescription) || contextData.DynamicMCP[0].Status != "idle" || contextData.DynamicMCP[0].ToolCount != 0 {
 		t.Fatalf("dynamic MCP context = %#v", contextData.DynamicMCP)
 	}
 	encodedContext, err := json.Marshal(contextResult)

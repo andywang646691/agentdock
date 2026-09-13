@@ -209,7 +209,7 @@ func (r *Runtime) dynamicMCPCapabilityIndex() []capabilityDynamicMCPItem {
 	for _, server := range servers {
 		items = append(items, capabilityDynamicMCPItem{
 			Name:          server.Name,
-			Description:   truncateString(strings.TrimSpace(server.Description), 160),
+			Description:   strings.TrimSpace(server.Description),
 			Status:        server.Status,
 			ToolCount:     server.ToolCount,
 			LastErrorCode: server.LastErrorCode,
@@ -227,7 +227,7 @@ func (r *Runtime) skillCapabilityIndex() ([]capabilitySkillItem, error) {
 	for _, skill := range skillItems {
 		items = append(items, capabilitySkillItem{
 			Name:        skill.Name,
-			Description: truncateString(strings.TrimSpace(skill.Description), 160),
+			Description: strings.TrimSpace(skill.Description),
 			File:        skill.File,
 			Bundled:     skill.Bundled,
 		})
@@ -250,7 +250,7 @@ func (r *Runtime) templateCapabilityIndex(ctx context.Context) ([]capabilityTemp
 		if name == "" {
 			continue
 		}
-		items = append(items, capabilityTemplateItem{Name: name, Description: truncateString(strings.TrimSpace(listedItem.Title), 160)})
+		items = append(items, capabilityTemplateItem{Name: name, Description: strings.TrimSpace(listedItem.Title)})
 	}
 	sort.SliceStable(items, func(i, j int) bool { return items[i].Name < items[j].Name })
 	return items, nil
@@ -286,9 +286,9 @@ func (r *Runtime) memoryCapabilityIndex(ctx context.Context) ([]capabilityMemory
 func recallIndexDescription(item capabilityRecallIndexItem) string {
 	if summary := strings.TrimSpace(item.Summary); summary != "" {
 		if title := strings.TrimSpace(item.Title); title != "" {
-			return truncateString(title+" — "+summary, 360)
+			return title + " — " + summary
 		}
-		return truncateString(summary, 360)
+		return summary
 	}
 	parts := []string{}
 	if title := strings.TrimSpace(item.Title); title != "" {
@@ -304,7 +304,7 @@ func recallIndexDescription(item capabilityRecallIndexItem) string {
 	if len(labels) > 0 {
 		parts = append(parts, strings.Join(labels, ", "))
 	}
-	return truncateString(strings.Join(parts, " · "), 360)
+	return strings.Join(parts, " · ")
 }
 
 func capMinInt(a, b int) int {

@@ -20,8 +20,9 @@ func TestCommonSkillCapabilityIndexListsValidSkillsInStableOrder(t *testing.T) {
 	home := t.TempDir()
 	setUserHomeForTest(t, home)
 	root := filepath.Join(home, ".agents", "skills")
+	longDescription := strings.Repeat("A", 400)
 	writeCommonSkillForTest(t, root, "z-dir", "z-skill", "Z skill description.")
-	writeCommonSkillForTest(t, root, "a-dir", "a-skill", strings.Repeat("A", commonSkillDescriptionBytes+40))
+	writeCommonSkillForTest(t, root, "a-dir", "a-skill", longDescription)
 	writeCommonSkillFileForTest(t, filepath.Join(root, "invalid", "SKILL.md"), "---\nname: invalid\ndescription:\n---\n\n# Invalid\n")
 
 	index, err := commonSkillCapabilityIndex()
@@ -37,8 +38,8 @@ func TestCommonSkillCapabilityIndexListsValidSkillsInStableOrder(t *testing.T) {
 	if index.Items[0].File != filepath.Join(root, "a-dir", "SKILL.md") {
 		t.Fatalf("common Skill file path = %q", index.Items[0].File)
 	}
-	if len(index.Items[0].Description) > commonSkillDescriptionBytes {
-		t.Fatalf("description was not truncated: %q", index.Items[0].Description)
+	if index.Items[0].Description != longDescription {
+		t.Fatalf("description was truncated: got %d bytes, want %d", len(index.Items[0].Description), len(longDescription))
 	}
 }
 

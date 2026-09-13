@@ -9,10 +9,7 @@ import (
 	skills "github.com/uvwt/agentdock/internal/skill"
 )
 
-const (
-	commonSkillIndexLimit       = 50
-	commonSkillDescriptionBytes = 120
-)
+const commonSkillIndexLimit = 50
 
 func commonSkillCapabilityIndex() (*capabilityCommonSkillIndex, error) {
 	home, err := os.UserHomeDir()
@@ -46,7 +43,7 @@ func commonSkillCapabilityIndex() (*capabilityCommonSkillIndex, error) {
 		}
 		items = append(items, capabilityCommonSkillItem{
 			Name:        metadata.Name,
-			Description: truncateString(strings.TrimSpace(metadata.Description), commonSkillDescriptionBytes),
+			Description: strings.TrimSpace(metadata.Description),
 			File:        documentPath,
 		})
 	}
